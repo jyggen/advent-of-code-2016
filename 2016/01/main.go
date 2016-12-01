@@ -108,8 +108,6 @@ func solve(input string) (int, int) {
 		santa.Move(instruction)
 	}
 
-	fmt.Print("\n")
-
 	return santa.GetBlocksAway(), santa.GetFirstVisitedTwice()
 }
 
