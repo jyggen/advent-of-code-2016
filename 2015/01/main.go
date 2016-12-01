@@ -41,7 +41,7 @@ func solve(input string) (int, int) {
 	}
 
 	for _, instruction := range instructions {
-		santa.move(instruction)
+		santa.Move(instruction)
 	}
 
 	return santa.currentPosition, santa.reachedBasementAt
