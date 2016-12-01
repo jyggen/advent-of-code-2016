@@ -11,7 +11,7 @@ type Test struct {
 	expected2 int
 }
 
-func TestSolvePartOne(t *testing.T) {
+func TestSolve(t *testing.T) {
 	assert := assert.New(t)
 	tests := []Test{
 		Test{input: "2x3x4", expected1: 58, expected2: 34},
