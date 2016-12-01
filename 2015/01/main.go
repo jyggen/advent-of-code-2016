@@ -1,54 +1,40 @@
 package main
 
 import (
-	"fmt"
 	"github.com/jyggen/advent-of-go/util"
 	"strconv"
 	"strings"
 )
 
-type Santa struct {
-	currentPosition    int
-	hasReachedBasement bool
-	numberOfMoves      int
-	reachedBasementAt  int
+func solvePartOne(instructions string) int {
+	up := len(strings.Replace(instructions, "(", "", -1))
+	down := len(strings.Replace(instructions, ")", "", -1))
+
+	return -up + down
 }
 
-func (santa *Santa) Move(instruction string) {
-	if instruction == "(" {
-		santa.currentPosition++
-	} else if instruction == ")" {
-		santa.currentPosition--
-	} else {
-		panic(fmt.Sprintf("unknown instruction \"%s\"", instruction))
+func solvePartTwo(instructions string) int {
+	var floor int
+
+	for index, instruction := range instructions {
+		if string(instruction) == "(" {
+			floor++
+		} else {
+			floor--
+		}
+
+		if floor < 0 {
+			return index + 1
+		}
 	}
 
-	santa.numberOfMoves++
-
-	if santa.currentPosition == -1 && santa.hasReachedBasement == false {
-		santa.hasReachedBasement = true
-		santa.reachedBasementAt = santa.numberOfMoves
-	}
-}
-
-func solve(input string) (int, int) {
-	instructions := strings.Split(input, "")
-	santa := Santa{
-		currentPosition:    0,
-		hasReachedBasement: false,
-		numberOfMoves:      0,
-		reachedBasementAt:  0,
-	}
-
-	for _, instruction := range instructions {
-		santa.Move(instruction)
-	}
-
-	return santa.currentPosition, santa.reachedBasementAt
+	return -1
 }
 
 func main() {
-	part1, part2 := solve(util.ReadFile("2015/01/input"))
+	instructions := util.ReadFile("2015/01/input")
+	partOne := solvePartOne(instructions)
+	partTwo := solvePartTwo(instructions)
 
-	util.PrintAnswers(strconv.Itoa(part1), strconv.Itoa(part2))
+	util.PrintAnswers(strconv.Itoa(partOne), strconv.Itoa(partTwo))
 }

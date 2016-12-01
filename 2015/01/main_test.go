@@ -25,9 +25,9 @@ func TestSolvePartOne(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		floor, _ := solve(test.input)
+		partOne := solvePartOne(test.input)
 
-		assert.Equal(test.expected, floor)
+		assert.Equal(test.expected, partOne)
 	}
 }
 
@@ -39,8 +39,8 @@ func TestSolvePartTwo(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		_, reachedBasementAt := solve(test.input)
+		partTwo := solvePartTwo(test.input)
 
-		assert.Equal(test.expected, reachedBasementAt)
+		assert.Equal(test.expected, partTwo)
 	}
 }
