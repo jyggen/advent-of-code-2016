@@ -8,13 +8,13 @@ import (
 )
 
 type Santa struct {
-	currentPosition int
+	currentPosition    int
 	hasReachedBasement bool
-	numberOfMoves int
-	reachedBasementAt int
+	numberOfMoves      int
+	reachedBasementAt  int
 }
 
-func (santa *Santa) move(instruction string) {
+func (santa *Santa) Move(instruction string) {
 	if instruction == "(" {
 		santa.currentPosition++
 	} else if instruction == ")" {
@@ -34,12 +34,11 @@ func (santa *Santa) move(instruction string) {
 func solve(input string) (int, int) {
 	instructions := strings.Split(input, "")
 	santa := Santa{
-		currentPosition: 0,
+		currentPosition:    0,
 		hasReachedBasement: false,
-		numberOfMoves: 0,
-		reachedBasementAt: 0,
+		numberOfMoves:      0,
+		reachedBasementAt:  0,
 	}
-
 
 	for _, instruction := range instructions {
 		santa.move(instruction)
