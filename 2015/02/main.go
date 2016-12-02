@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/jyggen/advent-of-go/util"
 	"sort"
 	"strconv"
