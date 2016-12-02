@@ -15,16 +15,8 @@ func solve(input string) (int, int) {
 		var dimensions []int
 		dimensionStrings := strings.Split(present, "x")
 
-		if len(dimensionStrings) != 3 {
-			panic(fmt.Sprintf("unable to parse present \"%s\"", present))
-		}
-
 		for _, value := range dimensionStrings {
-			intValue, err := strconv.Atoi(value)
-
-			if err != nil {
-				panic(err)
-			}
+			intValue, _ := strconv.Atoi(value)
 
 			dimensions = append(dimensions, intValue)
 		}
