@@ -13,14 +13,3 @@ totally-real-room-200[decoy]`
 
 	assert.Equal(t, 1514, solvePartOne(input))
 }
-
-func TestSolvePartTwo(t *testing.T) {
-	input := `101  301  501
-102  302  502
-103  303  503
-201  401  601
-202  402  602
-203  403  603`
-
-	assert.Equal(t, 6, solvePartTwo(input))
-}
