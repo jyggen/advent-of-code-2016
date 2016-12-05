@@ -16,10 +16,10 @@ func solvePartOne(input string) string {
 		preHash := []byte(fmt.Sprintf("%s%d", input, index))
 		checksum := fmt.Sprintf("%x", md5.Sum(preHash))
 
-		if (checksum[0:5] == "00000") {
+		if checksum[0:5] == "00000" {
 			password += checksum[5:6]
 
-			if (len(password) == 8) {
+			if len(password) == 8 {
 				break
 			}
 		}
@@ -41,10 +41,10 @@ func solvePartTwo(input string) string {
 		checksum := fmt.Sprintf("%x", md5.Sum(preHash))
 		position, err := strconv.Atoi(checksum[5:6])
 
-		if (err == nil && checksum[0:5] == "00000" && position <= 7 && password[position] == emptyRune) {
+		if err == nil && checksum[0:5] == "00000" && position <= 7 && password[position] == emptyRune {
 			password[position] = []rune(checksum[6:7])[0]
 
-			if (len(strings.Replace(string(password), trim, "", -1)) == 8) {
+			if len(strings.Replace(string(password), trim, "", -1)) == 8 {
 				break
 			}
 		}
