@@ -14,5 +14,5 @@ dec a
 jnz a 2
 dec a`
 
-	assert.Equal(t, 42, solve(input, registers))
+	assert.Equal(t, 42, solve(parseInput(input), registers))
 }
