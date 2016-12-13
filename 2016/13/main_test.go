@@ -6,14 +6,7 @@ import (
 )
 
 func TestSolve(t *testing.T) {
-	input := `cpy 41 a
-inc a
-inc a
-dec a
-jnz a 2
-dec a`
+	shortest, _ := solve(10, 7, 4)
 
-	assert.Equal(t, 42, solve(parseInput(input), map[string]int{
-		"a": 0,
-	}))
+	assert.Equal(t, 11, shortest)
 }

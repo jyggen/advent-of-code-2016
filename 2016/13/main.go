@@ -50,7 +50,7 @@ func validPaths(maze [][]bool) int {
 
 func solve(input int, goalX int, goalY int) (int, int) {
 	bitOne := []rune("1")[0]
-	max := 100
+	max := 50
 	maze := make([][]bool, max)
 
 	for y := 0; y < max; y++ {

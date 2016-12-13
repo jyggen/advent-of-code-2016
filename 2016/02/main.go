@@ -65,30 +65,26 @@ func solve(instructions [][]rune, keypad [][]rune, y int, x int) string {
 
 func main() {
 	instructions := parseInput(util.ReadFile("2016/02/input"))
-	keypad := [][]rune{
-		0: {0: []rune("1")[0], 1: []rune("2")[0], 2: []rune("3")[0]},
-		1: {0: []rune("4")[0], 1: []rune("5")[0], 2: []rune("6")[0]},
-		2: {0: []rune("7")[0], 1: []rune("8")[0], 2: []rune("9")[0]},
-	}
 
 	util.StartBenchmark()
 
-	result := solve(instructions, keypad, 1, 1)
+	result := solve(instructions, [][]rune{
+		0: {0: []rune("1")[0], 1: []rune("2")[0], 2: []rune("3")[0]},
+		1: {0: []rune("4")[0], 1: []rune("5")[0], 2: []rune("6")[0]},
+		2: {0: []rune("7")[0], 1: []rune("8")[0], 2: []rune("9")[0]},
+	}, 1, 1)
 
 	util.StopBenchmark()
 	util.PrintAnswer(1, result)
+	util.StartBenchmark()
 
-	keypad = [][]rune{
+	result = solve(instructions, [][]rune{
 		0: {0: []rune("0")[0], 1: []rune("0")[0], 2: []rune("1")[0], 3: []rune("0")[0], 4: []rune("0")[0]},
 		1: {0: []rune("0")[0], 1: []rune("2")[0], 2: []rune("3")[0], 3: []rune("4")[0], 4: []rune("0")[0]},
 		2: {0: []rune("5")[0], 1: []rune("6")[0], 2: []rune("7")[0], 3: []rune("8")[0], 4: []rune("9")[0]},
 		3: {0: []rune("0")[0], 1: []rune("A")[0], 2: []rune("B")[0], 3: []rune("C")[0], 4: []rune("0")[0]},
 		4: {0: []rune("0")[0], 1: []rune("0")[0], 2: []rune("D")[0], 3: []rune("0")[0], 4: []rune("0")[0]},
-	}
-
-	util.StartBenchmark()
-
-	result = solve(instructions, keypad, 2, 0)
+	}, 2, 0)
 
 	util.StopBenchmark()
 	util.PrintAnswer(2, result)
