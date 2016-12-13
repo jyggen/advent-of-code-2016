@@ -11,15 +11,26 @@ import (
 )
 
 var (
+	blue = color.New(color.FgBlue).SprintFunc()
 	green = color.New(color.FgGreen).SprintFunc()
+	stop = time.Now()
 	start = time.Now()
 )
 
-func PrintAnswers(part1 string, part2 string) {
-	fmt.Printf("Part 1: %s\n", green(part1))
-	fmt.Printf("Part 2: %s\n", green(part2))
-	fmt.Print("\n")
-	fmt.Printf("Executed in %s\n", green(time.Since(start)))
+func PrintAnswer(part int, answer interface{}) {
+	fmt.Printf("Part %d returned %s after %s.\n", part, green(answer), blue(roundN(stop.Sub(start), 2)))
+}
+
+func PrintAnswers(answer interface{}, answer2 interface{}) {
+	fmt.Printf("Part 1 returned %s and Part 2 returned %s after %s.\n", green(answer), green(answer2), blue(roundN(stop.Sub(start), 2)))
+}
+
+func StartBenchmark() {
+	start = time.Now()
+}
+
+func StopBenchmark() {
+	stop = time.Now()
 }
 
 func RankByLetterCount(letterFrequencies map[string]int) PairList {

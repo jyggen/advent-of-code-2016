@@ -1,74 +1,95 @@
 package main
 
 import (
-	"bytes"
 	"github.com/jyggen/advent-of-go/util"
 	"strings"
 )
 
-func solve(input string, keypad map[int]map[int]string, x int, y int) string {
-	var code bytes.Buffer
+func parseInput(input string) [][]rune {
+	rows := strings.Split(input, "\n")
+	instructions := make([][]rune, len(rows))
 
-	for _, row := range strings.Split(input, "\n") {
-		for _, instruction := range strings.Split(row, "") {
+	for i, row := range rows {
+		characters := strings.Split(row, "")
+		instructions[i] = make([]rune, len(characters))
+
+		for j, character := range characters {
+			instructions[i][j] = []rune(character)[0]
+		}
+	}
+
+	return instructions
+}
+
+func solve(instructions [][]rune, keypad [][]rune, y int, x int) string {
+	code := make([]rune, len(instructions))
+	maxX := len(keypad[0])
+	maxY := len(keypad)
+	runeDown := []rune("D")[0]
+	runeLeft := []rune("L")[0]
+	runeRight := []rune("R")[0]
+	runeUp := []rune("U")[0]
+	runeZero := []rune("0")[0]
+
+	for index, row := range instructions {
+		for _, instruction := range row {
 			switch instruction {
-			case "U":
-				if _, ok := keypad[y-1][x]; ok {
+			case runeUp:
+				if (y - 1 >= 0 && keypad[y - 1][x] != runeZero) {
 					y--
 				}
 				break
-			case "R":
-				if _, ok := keypad[y][x+1]; ok {
+			case runeRight:
+				if (x + 1 < maxX && keypad[y][x + 1] != runeZero) {
 					x++
 				}
 				break
-			case "D":
-				if _, ok := keypad[y+1][x]; ok {
+			case runeDown:
+				if (y + 1 < maxY && keypad[y + 1][x] != runeZero) {
 					y++
 				}
 				break
-			case "L":
-				if _, ok := keypad[y][x-1]; ok {
+			case runeLeft:
+				if (x - 1 >= 0 && keypad[y][x - 1] != runeZero) {
 					x--
 				}
 				break
 			}
 		}
 
-		code.WriteString(keypad[y][x])
+		code[index] = keypad[y][x]
 	}
 
-	return code.String()
-}
-
-func solvePartOne(input string) string {
-	keypad := make(map[int]map[int]string)
-	keypad = map[int]map[int]string{
-		0: {0: "1", 1: "2", 2: "3"},
-		1: {0: "4", 1: "5", 2: "6"},
-		2: {0: "7", 1: "8", 2: "9"},
-	}
-
-	return solve(input, keypad, 1, 1)
-}
-
-func solvePartTwo(input string) string {
-	keypad := make(map[int]map[int]string)
-	keypad = map[int]map[int]string{
-		0: {2: "1"},
-		1: {1: "2", 2: "3", 3: "4"},
-		2: {0: "5", 1: "6", 2: "7", 3: "8", 4: "9"},
-		3: {1: "A", 2: "B", 3: "C"},
-		4: {2: "D"},
-	}
-
-	return solve(input, keypad, 0, 2)
+	return string(code)
 }
 
 func main() {
-	input := util.ReadFile("2016/02/input")
-	part1 := solvePartOne(input)
-	part2 := solvePartTwo(input)
+	instructions := parseInput(util.ReadFile("2016/02/input"))
+	keypad := [][]rune{
+		0: {0: []rune("1")[0], 1: []rune("2")[0], 2: []rune("3")[0]},
+		1: {0: []rune("4")[0], 1: []rune("5")[0], 2: []rune("6")[0]},
+		2: {0: []rune("7")[0], 1: []rune("8")[0], 2: []rune("9")[0]},
+	}
 
-	util.PrintAnswers(part1, part2)
+	util.StartBenchmark()
+
+	result := solve(instructions, keypad, 1, 1)
+
+	util.StopBenchmark()
+	util.PrintAnswer(1, result)
+
+	keypad = [][]rune{
+		0: {0: []rune("0")[0], 1: []rune("0")[0], 2: []rune("1")[0], 3: []rune("0")[0], 4: []rune("0")[0]},
+		1: {0: []rune("0")[0], 1: []rune("2")[0], 2: []rune("3")[0], 3: []rune("4")[0], 4: []rune("0")[0]},
+		2: {0: []rune("5")[0], 1: []rune("6")[0], 2: []rune("7")[0], 3: []rune("8")[0], 4: []rune("9")[0]},
+		3: {0: []rune("0")[0], 1: []rune("A")[0], 2: []rune("B")[0], 3: []rune("C")[0], 4: []rune("0")[0]},
+		4: {0: []rune("0")[0], 1: []rune("0")[0], 2: []rune("D")[0], 3: []rune("0")[0], 4: []rune("0")[0]},
+	}
+
+	util.StartBenchmark()
+
+	result = solve(instructions, keypad, 2, 0)
+
+	util.StopBenchmark()
+	util.PrintAnswer(2, result)
 }

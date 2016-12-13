@@ -95,7 +95,11 @@ func (santa *Santa) Move(instruction string) {
 	}
 }
 
-func solve(input string) (int, int) {
+func parseInput(input string) ([]string) {
+	return strings.Split(input, ", ")
+}
+
+func solve(instructions []string) (int, int) {
 	santa := Santa{
 		facing:            0,
 		firstVisitedTwice: "",
@@ -104,7 +108,7 @@ func solve(input string) (int, int) {
 		y:                 0,
 	}
 
-	for _, instruction := range strings.Split(input, ", ") {
+	for _, instruction := range instructions {
 		santa.Move(instruction)
 	}
 
@@ -112,7 +116,12 @@ func solve(input string) (int, int) {
 }
 
 func main() {
-	part1, part2 := solve(util.ReadFile("2016/01/input"))
+	instructions := parseInput(util.ReadFile("2016/01/input"))
 
-	util.PrintAnswers(strconv.Itoa(part1), strconv.Itoa(part2))
+	util.StartBenchmark()
+
+	blocksAway, firstRepeat := solve(instructions)
+
+	util.StopBenchmark()
+	util.PrintAnswers(blocksAway,firstRepeat)
 }
