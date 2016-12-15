@@ -3,116 +3,92 @@ package main
 import (
 	"fmt"
 	"github.com/jyggen/advent-of-go/util"
-	"math"
+	"regexp"
 	"strconv"
 	"strings"
 )
 
-type Santa struct {
-	facing            int
-	firstVisitedTwice string
-	history           map[string]int
-	x                 int
-	y                 int
+type Instruction struct {
+	direction rune
+	distance  int
 }
 
-func (santa *Santa) GetBlocksAway() int {
-	x := math.Abs(float64(santa.x))
-	y := math.Abs(float64(santa.y))
-
-	return int(x) + int(y)
+func getLocationKey(position []int) string {
+	return fmt.Sprintf("%sx%s", position[0], position[1])
 }
 
-func (santa *Santa) GetFirstVisitedTwice() int {
-	var blocksAway int
+func parseInput(input string) []Instruction {
+	instructions := strings.Split(input, ",")
+	instructionStructs := make([]Instruction, len(instructions))
+	instructionRegexp := regexp.MustCompile("^(L|R)([\\d]+)$")
 
-	if santa.firstVisitedTwice == "" {
-		return -1
-	}
+	for index, instruction := range instructions {
+		instruction = strings.TrimSpace(instruction)
+		match := instructionRegexp.FindStringSubmatch(instruction)
+		direction := []rune(match[1])[0]
+		distance, _ := strconv.Atoi(match[2])
 
-	for _, coordString := range strings.Split(santa.firstVisitedTwice, "x") {
-		coord, err := strconv.Atoi(coordString)
-
-		if err != nil {
-			panic(err)
+		instructionStructs[index] = Instruction{
+			direction: direction,
+			distance:  distance,
 		}
-
-		blocksAway += int(math.Abs(float64(coord)))
 	}
 
-	return blocksAway
+	return instructionStructs
 }
 
-func (santa *Santa) Move(instruction string) {
-	direction := instruction[:1]
-	steps, err := strconv.Atoi(instruction[1:])
-
-	if err != nil {
-		panic(err)
-	}
-
-	if direction == "R" {
-		santa.facing++
-
-		if santa.facing == 4 {
-			santa.facing = 0
-		}
-	} else if direction == "L" {
-		santa.facing--
-
-		if santa.facing == -1 {
-			santa.facing = 3
-		}
-	} else {
-		panic(fmt.Sprintf("unknown direction \"%s\"", direction))
-	}
-
-	for i := 1; i <= steps; i++ {
-		switch santa.facing {
-		case 0:
-			santa.y--
-		case 1:
-			santa.x++
-		case 2:
-			santa.y++
-		case 3:
-			santa.x--
-		default:
-			panic(fmt.Sprintf("santa is facing a weird way (\"%d\")", santa.facing))
-		}
-
-		coords := fmt.Sprintf("%dx%d", santa.x, santa.y)
-
-		if _, ok := santa.history[coords]; ok == false {
-			santa.history[coords] = 0
-		}
-
-		santa.history[coords]++
-
-		if santa.firstVisitedTwice == "" && santa.history[coords] == 2 {
-			santa.firstVisitedTwice = coords
-		}
-	}
-}
-
-func parseInput(input string) ([]string) {
-	return strings.Split(input, ", ")
-}
-
-func solve(instructions []string) (int, int) {
-	santa := Santa{
-		facing:            0,
-		firstVisitedTwice: "",
-		history:           make(map[string]int),
-		x:                 0,
-		y:                 0,
+func solve(instructions []Instruction) (int, int) {
+	face := 0
+	position := []int{0, 0}
+	runeLeft := []rune("L")[0]
+	visitedTwiceFound := false
+	visitedTwicePosition := []int{0, 0}
+	locations := map[string]bool{
+		getLocationKey(position): true,
 	}
 
 	for _, instruction := range instructions {
-		santa.Move(instruction)
+		if instruction.direction == runeLeft {
+			face += 1
+		} else {
+			face += -1
+		}
+
+		face %= 4
+
+		if face < 0 {
+			face += 4
+		}
+
+		coord := face % 2
+		dir := 0
+
+		if face/2 == 0 {
+			dir = 1
+		} else {
+			dir = -1
+		}
+
+		for i := 0; i < instruction.distance; i++ {
+			position[coord] += dir
+
+			if (visitedTwiceFound == true) {
+				continue
+			}
+
+			locationKey := getLocationKey(position)
+
+			if _, ok := locations[locationKey]; ok {
+				visitedTwiceFound = true
+				visitedTwicePosition = []int{position[0], position[1]}
+				continue
+			}
+
+			locations[locationKey] = true
+		}
 	}
 
-	return santa.GetBlocksAway(), santa.GetFirstVisitedTwice()
+	return util.AbsInt(position[0]) + util.AbsInt(position[1]), util.AbsInt(visitedTwicePosition[0]) + util.AbsInt(visitedTwicePosition[1])
 }
 
 func main() {
@@ -120,8 +96,9 @@ func main() {
 
 	util.StartBenchmark()
 
-	blocksAway, firstRepeat := solve(instructions)
+	blocksAway, visitedTwice := solve(instructions)
 
 	util.StopBenchmark()
-	util.PrintAnswers(blocksAway,firstRepeat)
+	util.PrintAnswer(blocksAway)
+	util.PrintAnswer(visitedTwice)
 }

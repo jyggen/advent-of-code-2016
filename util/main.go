@@ -19,6 +19,18 @@ var (
 	start       = time.Now()
 )
 
+func AbsInt(value int) int {
+	if value < 0 {
+		return -value
+	}
+
+	if (value == 0) {
+		return 0
+	}
+
+	return value
+}
+
 func PrintAnswer(answer interface{}) {
 	fmt.Printf("[%s] %s\n", blue(roundN(stop.Sub(start), 2)), green(answer))
 }
