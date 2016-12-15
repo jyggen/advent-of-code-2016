@@ -13,12 +13,14 @@ import (
 var (
 	blue = color.New(color.FgBlue).SprintFunc()
 	green = color.New(color.FgGreen).SprintFunc()
+	magenta = color.New(color.FgMagenta).SprintFunc()
+	magentaBold = color.New(color.FgMagenta, color.Bold).SprintFunc()
 	stop = time.Now()
 	start = time.Now()
 )
 
-func PrintAnswer(part int, answer interface{}) {
-	fmt.Printf("Part %d returned %s after %s.\n", part, green(answer), blue(roundN(stop.Sub(start), 2)))
+func PrintAnswer(answer interface{}) {
+	fmt.Printf("[%s] %s\n", blue(roundN(stop.Sub(start), 2)), green(answer))
 }
 
 func PrintAnswers(answer interface{}, answer2 interface{}) {
