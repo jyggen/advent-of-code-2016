@@ -9,8 +9,8 @@ import (
 
 type State struct {
 	best int
-	y int
-	x int
+	y    int
+	x    int
 }
 
 var (
@@ -22,7 +22,7 @@ func printState(maze [][]bool) {
 
 	for y := 0; y < max; y++ {
 		for x := 0; x < max; x++ {
-			if (maze[y][x]) {
+			if maze[y][x] {
 				fmt.Printf(".")
 			} else {
 				fmt.Printf("#")
@@ -39,7 +39,7 @@ func validPaths(maze [][]bool) int {
 
 	for y := 0; y < max; y++ {
 		for x := 0; x < max; x++ {
-			if (maze[y][x]) {
+			if maze[y][x] {
 				valid++
 			}
 		}
@@ -57,17 +57,17 @@ func solve(input int, goalX int, goalY int) (int, int) {
 		maze[y] = make([]bool, max)
 
 		for x := 0; x < max; x++ {
-			result := x * x + 3 * x + 2 * x * y + y + y*y + input
+			result := x*x + 3*x + 2*x*y + y + y*y + input
 			binary := strconv.FormatInt(int64(result), 2)
 			oneBits := 0
 
 			for _, bit := range binary {
-				if (bit == bitOne) {
+				if bit == bitOne {
 					oneBits++
 				}
 			}
 
-			if (oneBits % 2 == 0) {
+			if oneBits%2 == 0 {
 				maze[y][x] = true
 			} else {
 				maze[y][x] = false
@@ -96,15 +96,15 @@ func copyMaze(maze [][]bool) [][]bool {
 }
 
 func walkPart1(maze [][]bool, steps int, y int, x int, goalY int, goalX int) int {
-	if (y == goalY && x == goalX) {
+	if y == goalY && x == goalX {
 		return steps
 	}
 
 	found := false
 
 	for _, state := range states {
-		if (state.y == y && state.x == x) {
-			if (state.best < steps) {
+		if state.y == y && state.x == x {
+			if state.best < steps {
 				return -1
 			}
 
@@ -113,7 +113,7 @@ func walkPart1(maze [][]bool, steps int, y int, x int, goalY int, goalX int) int
 		}
 	}
 
-	if (!found) {
+	if !found {
 		states = append(states, State{best: steps, y: y, x: x})
 	}
 
@@ -123,23 +123,23 @@ func walkPart1(maze [][]bool, steps int, y int, x int, goalY int, goalX int) int
 	allBest := []int{}
 
 	// North
-	if (y - 1 >= 0 && maze[y - 1][x]) {
-		allBest = append(allBest, walkPart1(copyMaze(maze), steps + 1, y - 1, x, goalY, goalX))
+	if y-1 >= 0 && maze[y-1][x] {
+		allBest = append(allBest, walkPart1(copyMaze(maze), steps+1, y-1, x, goalY, goalX))
 	}
 
 	// East
-	if (x + 1 < max && maze[y][x + 1]) {
-		allBest = append(allBest, walkPart1(copyMaze(maze), steps + 1, y, x + 1, goalY, goalX))
+	if x+1 < max && maze[y][x+1] {
+		allBest = append(allBest, walkPart1(copyMaze(maze), steps+1, y, x+1, goalY, goalX))
 	}
 
 	// South
-	if (y + 1 < max && maze[y + 1][x]) {
-		allBest = append(allBest, walkPart1(copyMaze(maze), steps + 1, y + 1, x, goalY, goalX))
+	if y+1 < max && maze[y+1][x] {
+		allBest = append(allBest, walkPart1(copyMaze(maze), steps+1, y+1, x, goalY, goalX))
 	}
 
 	// West
-	if (x - 1 >= 0 && maze[y][x - 1]) {
-		allBest = append(allBest, walkPart1(copyMaze(maze), steps + 1, y, x - 1, goalY, goalX))
+	if x-1 >= 0 && maze[y][x-1] {
+		allBest = append(allBest, walkPart1(copyMaze(maze), steps+1, y, x-1, goalY, goalX))
 	}
 
 	filteredBest := allBest[:0]
@@ -160,15 +160,15 @@ func walkPart1(maze [][]bool, steps int, y int, x int, goalY int, goalX int) int
 }
 
 func walkPart2(maze [][]bool, steps int, y int, x int) {
-	if (steps > 50) {
+	if steps > 50 {
 		return
 	}
 
 	found := false
 
 	for _, state := range states {
-		if (state.y == y && state.x == x) {
-			if (state.best < steps) {
+		if state.y == y && state.x == x {
+			if state.best < steps {
 				return
 			}
 
@@ -177,7 +177,7 @@ func walkPart2(maze [][]bool, steps int, y int, x int) {
 		}
 	}
 
-	if (!found) {
+	if !found {
 		states = append(states, State{best: steps, y: y, x: x})
 	}
 
@@ -186,30 +186,30 @@ func walkPart2(maze [][]bool, steps int, y int, x int) {
 	maze[y][x] = false
 
 	// North
-	if (y - 1 >= 0 && maze[y - 1][x]) {
-		walkPart2(copyMaze(maze), steps + 1, y - 1, x)
+	if y-1 >= 0 && maze[y-1][x] {
+		walkPart2(copyMaze(maze), steps+1, y-1, x)
 	}
 
 	// East
-	if (x + 1 < max && maze[y][x + 1]) {
-		walkPart2(copyMaze(maze), steps + 1, y, x + 1)
+	if x+1 < max && maze[y][x+1] {
+		walkPart2(copyMaze(maze), steps+1, y, x+1)
 	}
 
 	// South
-	if (y + 1 < max && maze[y + 1][x]) {
-		walkPart2(copyMaze(maze), steps + 1, y + 1, x)
+	if y+1 < max && maze[y+1][x] {
+		walkPart2(copyMaze(maze), steps+1, y+1, x)
 	}
 
 	// West
-	if (x - 1 >= 0 && maze[y][x - 1]) {
-		walkPart2(copyMaze(maze), steps + 1, y, x - 1)
+	if x-1 >= 0 && maze[y][x-1] {
+		walkPart2(copyMaze(maze), steps+1, y, x-1)
 	}
 }
 
 func main() {
 	input, err := strconv.Atoi(util.ReadFile("2016/13/input"))
 
-	if (err != nil) {
+	if err != nil {
 		panic(err)
 	}
 

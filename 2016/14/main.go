@@ -8,7 +8,7 @@ import (
 
 type Match struct {
 	character rune
-	index int
+	index     int
 }
 
 var (
@@ -40,23 +40,23 @@ func solve(input string, stretching int) int {
 		repeat := 1
 		count := true
 
-		var last rune;
+		var last rune
 
 		for _, character := range checksum {
-			if (last == character) {
+			if last == character {
 				repeat++
 
-				if (repeat == 5) {
+				if repeat == 5 {
 					for i := 0; i < len(matches); {
-						if (matches[i].index < index - 1000) {
+						if matches[i].index < index-1000 {
 							matches = append(matches[:i], matches[i+1:]...)
 							continue
 						}
 
-						if (matches[i].character == character && matches[i].index != index) {
+						if matches[i].character == character && matches[i].index != index {
 							passwordsFound++
 
-							if (passwordsFound == 64) {
+							if passwordsFound == 64 {
 								return matches[i].index
 							}
 
@@ -68,7 +68,7 @@ func solve(input string, stretching int) int {
 					}
 
 					break
-				} else if (repeat == 3 && count) {
+				} else if repeat == 3 && count {
 					matches = append(matches, Match{character: character, index: index})
 					count = false
 				}

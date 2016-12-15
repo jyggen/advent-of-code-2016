@@ -35,22 +35,22 @@ func solve(instructions [][]rune, keypad [][]rune, y int, x int) string {
 		for _, instruction := range row {
 			switch instruction {
 			case runeUp:
-				if (y - 1 >= 0 && keypad[y - 1][x] != runeZero) {
+				if y-1 >= 0 && keypad[y-1][x] != runeZero {
 					y--
 				}
 				break
 			case runeRight:
-				if (x + 1 < maxX && keypad[y][x + 1] != runeZero) {
+				if x+1 < maxX && keypad[y][x+1] != runeZero {
 					x++
 				}
 				break
 			case runeDown:
-				if (y + 1 < maxY && keypad[y + 1][x] != runeZero) {
+				if y+1 < maxY && keypad[y+1][x] != runeZero {
 					y++
 				}
 				break
 			case runeLeft:
-				if (x - 1 >= 0 && keypad[y][x - 1] != runeZero) {
+				if x-1 >= 0 && keypad[y][x-1] != runeZero {
 					x--
 				}
 				break

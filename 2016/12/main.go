@@ -31,12 +31,12 @@ func parseInput(input string) [][]interface{} {
 
 		byteInstruction[0] = match[1]
 
-		switch(match[1]) {
+		switch match[1] {
 		case "cpy":
 			match[2] = strings.TrimSpace(match[2])
 			intValue, err := strconv.Atoi(match[2])
 
-			if (err != nil) {
+			if err != nil {
 				byteInstruction[1] = match[2]
 			} else {
 				byteInstruction[1] = intValue
@@ -54,7 +54,7 @@ func parseInput(input string) [][]interface{} {
 			match[2] = strings.TrimSpace(match[2])
 			intValue, err := strconv.Atoi(match[2])
 
-			if (err != nil) {
+			if err != nil {
 				byteInstruction[1] = match[2]
 			} else {
 				byteInstruction[1] = intValue
@@ -79,7 +79,7 @@ func solve(instructions [][]interface{}, registers map[string]int) int {
 	for i := 0; i < numOfInstructions; i++ {
 		instruction := instructions[i]
 
-		switch(instruction[0]) {
+		switch instruction[0] {
 		case "cpy":
 			registers[instruction[2].(string)] = getValue(instruction[1], registers)
 			break
@@ -90,7 +90,7 @@ func solve(instructions [][]interface{}, registers map[string]int) int {
 			registers[instruction[1].(string)]++
 			break
 		case "jnz":
-			if (getValue(instruction[1], registers) == 0) {
+			if getValue(instruction[1], registers) == 0 {
 				continue
 			}
 

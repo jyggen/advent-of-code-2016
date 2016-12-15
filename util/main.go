@@ -11,12 +11,12 @@ import (
 )
 
 var (
-	blue = color.New(color.FgBlue).SprintFunc()
-	green = color.New(color.FgGreen).SprintFunc()
-	magenta = color.New(color.FgMagenta).SprintFunc()
+	blue        = color.New(color.FgBlue).SprintFunc()
+	green       = color.New(color.FgGreen).SprintFunc()
+	magenta     = color.New(color.FgMagenta).SprintFunc()
 	magentaBold = color.New(color.FgMagenta, color.Bold).SprintFunc()
-	stop = time.Now()
-	start = time.Now()
+	stop        = time.Now()
+	start       = time.Now()
 )
 
 func PrintAnswer(answer interface{}) {

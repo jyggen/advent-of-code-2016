@@ -3,13 +3,13 @@ package main
 import (
 	"github.com/jyggen/advent-of-go/util"
 	"regexp"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 type Instruction struct {
 	positions int
-	current int
+	current   int
 }
 
 func parseInput(input string) []Instruction {
@@ -23,7 +23,7 @@ func parseInput(input string) []Instruction {
 		current, _ := strconv.Atoi(match[3])
 		instructionStructs[index] = Instruction{
 			positions: positions,
-			current: current,
+			current:   current,
 		}
 	}
 
@@ -70,7 +70,7 @@ func main() {
 
 	instructions = append(instructions, Instruction{
 		positions: 11,
-		current: 0,
+		current:   0,
 	})
 
 	result = solve(instructions)
