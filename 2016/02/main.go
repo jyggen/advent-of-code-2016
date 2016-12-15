@@ -75,7 +75,7 @@ func main() {
 	}, 1, 1)
 
 	util.StopBenchmark()
-	util.PrintAnswer(1, result)
+	util.PrintAnswer(result)
 	util.StartBenchmark()
 
 	result = solve(instructions, [][]rune{
@@ -87,5 +87,5 @@ func main() {
 	}, 2, 0)
 
 	util.StopBenchmark()
-	util.PrintAnswer(2, result)
+	util.PrintAnswer(result)
 }
