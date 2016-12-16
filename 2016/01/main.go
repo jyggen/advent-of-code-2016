@@ -37,16 +37,48 @@ func parseInput(input string) []Instruction {
 	return instructionStructs
 }
 
-func solve(instructions []Instruction) (int, int) {
+func solvePartOne(instructions []Instruction) int {
 	face := 0
 	position := []int{0, 0}
 	runeLeft := []rune("L")[0]
-	visitedTwiceFound := false
-	visitedTwicePosition := []int{0, 0}
+
+	for _, instruction := range instructions {
+		if instruction.direction == runeLeft {
+			face += 1
+		} else {
+			face += -1
+		}
+
+		face %= 4
+
+		if face < 0 {
+			face += 4
+		}
+
+		coord := face % 2
+		dir := 0
+
+		if face/2 == 0 {
+			dir = 1
+		} else {
+			dir = -1
+		}
+
+		position[coord] += dir * instruction.distance
+	}
+
+	return util.AbsInt(position[0]) + util.AbsInt(position[1])
+}
+
+func solvePartTwo(instructions []Instruction) int {
+	face := 0
+	position := []int{0, 0}
+	runeLeft := []rune("L")[0]
 	locations := map[string]bool{
 		getLocationKey(position): true,
 	}
 
+Loop:
 	for _, instruction := range instructions {
 		if instruction.direction == runeLeft {
 			face += 1
@@ -72,23 +104,17 @@ func solve(instructions []Instruction) (int, int) {
 		for i := 0; i < instruction.distance; i++ {
 			position[coord] += dir
 
-			if (visitedTwiceFound == true) {
-				continue
-			}
-
 			locationKey := getLocationKey(position)
 
 			if _, ok := locations[locationKey]; ok {
-				visitedTwiceFound = true
-				visitedTwicePosition = []int{position[0], position[1]}
-				continue
+				break Loop
 			}
 
 			locations[locationKey] = true
 		}
 	}
 
-	return util.AbsInt(position[0]) + util.AbsInt(position[1]), util.AbsInt(visitedTwicePosition[0]) + util.AbsInt(visitedTwicePosition[1])
+	return util.AbsInt(position[0]) + util.AbsInt(position[1])
 }
 
 func main() {
@@ -96,9 +122,14 @@ func main() {
 
 	util.StartBenchmark()
 
-	blocksAway, visitedTwice := solve(instructions)
+	result := solvePartOne(instructions)
 
 	util.StopBenchmark()
-	util.PrintAnswer(blocksAway)
-	util.PrintAnswer(visitedTwice)
+	util.PrintAnswer(result)
+	util.StartBenchmark()
+
+	result = solvePartTwo(instructions)
+
+	util.StopBenchmark()
+	util.PrintAnswer(result)
 }

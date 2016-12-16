@@ -109,9 +109,11 @@ func solve(input string, width int, height int) (int, string) {
 
 func main() {
 	input := util.ReadFile("2016/08/input")
-	part1, part2 := solve(input, 50, 6)
 
-	fmt.Printf("Part 1: %s\n", green(part1))
-	fmt.Printf("Part 2:\n%s\n", green(part2))
-	fmt.Printf("Executed in %s\n", green(time.Since(start)))
+	util.StartBenchmark()
+
+	result, _ := solve(input, 50, 6)
+
+	util.StopBenchmark()
+	util.PrintAnswer(result)
 }

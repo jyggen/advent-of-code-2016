@@ -24,7 +24,7 @@ func AbsInt(value int) int {
 		return -value
 	}
 
-	if (value == 0) {
+	if value == 0 {
 		return 0
 	}
 

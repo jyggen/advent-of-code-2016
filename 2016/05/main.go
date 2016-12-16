@@ -57,8 +57,17 @@ func solvePartTwo(input string) string {
 
 func main() {
 	input := util.ReadFile("2016/05/input")
-	part1 := solvePartOne(input)
-	part2 := solvePartTwo(input)
 
-	util.PrintAnswers(part1, part2)
+	util.StartBenchmark()
+
+	result := solvePartOne(input)
+
+	util.StopBenchmark()
+	util.PrintAnswer(result)
+	util.StartBenchmark()
+
+	result = solvePartTwo(input)
+
+	util.StopBenchmark()
+	util.PrintAnswer(result)
 }

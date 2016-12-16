@@ -1,48 +1,17 @@
 package main
 
 import (
+	"github.com/jyggen/advent-of-go/util"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestSolvePartOne(t *testing.T) {
-	input := `eedadn
-drvtee
-eandsr
-raavrd
-atevrs
-tsrnev
-sdttsa
-rasrtv
-nssdts
-ntnada
-svetve
-tesnvt
-vntsnd
-vrdear
-dvrsen
-enarar`
-
-	assert.Equal(t, "easter", solvePartOne(input))
+	assert.Equal(t, "easter", solvePartOne("eedadn\ndrvtee\neandsr\nraavrd\natevrs\ntsrnev\nsdttsa\nrasrtv\nnssdts\nntnada\nsvetve\ntesnvt\nvntsnd\nvrdear\ndvrsen\nenarar"))
+	assert.Equal(t, "ikerpcty", solvePartOne(util.ReadFile("input")))
 }
 
 func TestSolvePartTwo(t *testing.T) {
-	input := `eedadn
-drvtee
-eandsr
-raavrd
-atevrs
-tsrnev
-sdttsa
-rasrtv
-nssdts
-ntnada
-svetve
-tesnvt
-vntsnd
-vrdear
-dvrsen
-enarar`
-
-	assert.Equal(t, "advent", solvePartTwo(input))
+	assert.Equal(t, "advent", solvePartTwo("eedadn\ndrvtee\neandsr\nraavrd\natevrs\ntsrnev\nsdttsa\nrasrtv\nnssdts\nntnada\nsvetve\ntesnvt\nvntsnd\nvrdear\ndvrsen\nenarar"))
+	assert.Equal(t, "uwpfaqrq", solvePartTwo(util.ReadFile("input")))
 }

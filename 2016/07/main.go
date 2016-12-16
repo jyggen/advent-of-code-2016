@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/jyggen/advent-of-go/util"
-	"strconv"
 	"strings"
 )
 
@@ -116,8 +115,17 @@ func solvePartTwo(input string) int {
 
 func main() {
 	input := util.ReadFile("2016/07/input")
-	part1 := solvePartOne(input)
-	part2 := solvePartTwo(input)
 
-	util.PrintAnswers(strconv.Itoa(part1), strconv.Itoa(part2))
+	util.StartBenchmark()
+
+	result := solvePartOne(input)
+
+	util.StopBenchmark()
+	util.PrintAnswer(result)
+	util.StartBenchmark()
+
+	result = solvePartTwo(input)
+
+	util.StopBenchmark()
+	util.PrintAnswer(result)
 }
