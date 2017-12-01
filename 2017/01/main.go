@@ -17,32 +17,11 @@ func parseInput(input string) []int {
 	return instructionInts
 }
 
-func solvePartOne(instructions []int) int {
+func solve(instructions []int, steps int) int {
 	total := 0
 
 	for index, instruction := range instructions {
-		previous := index - 1
-
-		if (previous < 0) {
-			previous = len(instructions) - 1
-		}
-
-		if (instructions[previous] != instruction) {
-			continue
-		}
-
-		total += instruction
-	}
-
-	return total
-}
-
-func solvePartTwo(instructions []int) int {
-	total := 0
-	half := len(instructions) / 2
-
-	for index, instruction := range instructions {
-		previous := index - half
+		previous := index - steps
 
 		if (previous < 0) {
 			previous = len(instructions) - util.AbsInt(previous)
@@ -56,6 +35,14 @@ func solvePartTwo(instructions []int) int {
 	}
 
 	return total
+}
+
+func solvePartOne(instructions []int) int {
+	return solve(instructions, 1)
+}
+
+func solvePartTwo(instructions []int) int {
+	return solve(instructions, len(instructions) / 2)
 }
 
 func main() {
